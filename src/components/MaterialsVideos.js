@@ -93,6 +93,15 @@ const VideoCardT = ({ video }) => {
         setShowConfirm(false);
     };
 
+    const downloadDocument = (filePath, fileName) => {
+        const url = `http://localhost:3001/download?path=${encodeURIComponent(filePath)}`;
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
     return (
         <div className="video-card">
             <div className='card-video-container'>
@@ -106,6 +115,7 @@ const VideoCardT = ({ video }) => {
             <div className="card-content">
                 <div className='card-title' title={video.title}>{video.title}</div>
                 <div className="actions">
+                    <button onClick={() => downloadDocument(video.path, video.title)}>下载</button>
                     {isAdmin && (
                         <span>
                             <button onClick={() => handleiEdit(video.id, video.title, video.tag)}>编辑</button>

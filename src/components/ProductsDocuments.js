@@ -161,16 +161,17 @@ const ProductsDocuments = () => {
             alert('文件上传失败');
         }
     };
-    const downloadDocument = (path) => {
-        //下载
-        const url = `http://localhost:3000/download?path=${encodeURIComponent(path)}`;
+    const downloadDocument = (filePath, fileName) => {
+        const url = `http://localhost:3001/download?path=${encodeURIComponent(filePath)}`;
         const link = document.createElement('a');
         link.href = url;
-        link.download = ''; // 可以设置下载的文件名，如果需要
+        link.download = fileName;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-    }
+    };
+
+
     const handleiEdit = (id, title, tag) => {
         setIsEditFormOpen(true);
         setTitle(title);

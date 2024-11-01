@@ -1408,28 +1408,39 @@ function updateDatabaseRecordpdv(id, title, tag, anchor, technique) {
 // app.use('/static', express.static(path.join(__dirname, 'public', 'documents')));
 
 // 下载文件的路由
-app.get('/download', (req, res) => {
-    const absolutePath = req.query.path; // 从查询参数中获取绝对路径
+// app.get('/download', (req, res) => {
+//     const absolutePath = req.query.path; // 从查询参数中获取绝对路径
 
-    // 检查文件是否存在
-    if (fs.existsSync(absolutePath)) {
-        console.log('进入下载');
-        res.download(absolutePath, (err) => {
-            if (err) {
-                console.error('Error downloading file:', err);
-                res.status(500).send('Error downloading file');
-            }
-        });
-        //方法二：
-        // const filename = path.basename(absolutePath); // 获取文件名
-        // const readStream = fs.createReadStream(absolutePath); // 创建输入流入口
-        // // 设置响应头
-        // res.writeHead(200, {
-        //     'Content-Type': 'application/octet-stream', // 或者根据文件类型设置
-        //     'Content-Disposition': `attachment; filename="${filename}"` // 设置下载的文件名
-        // });
-        // // 通过管道方式写入
-        // readStream.pipe(res);
+//     // 检查文件是否存在
+//     if (fs.existsSync(absolutePath)) {
+//         console.log('进入下载');
+//         res.download(absolutePath, (err) => {
+//             if (err) {
+//                 console.error('Error downloading file:', err);
+//                 res.status(500).send('Error downloading file');
+//             }
+//         });
+//         //方法二：
+//         // const filename = path.basename(absolutePath); // 获取文件名
+//         // const readStream = fs.createReadStream(absolutePath); // 创建输入流入口
+//         // // 设置响应头
+//         // res.writeHead(200, {
+//         //     'Content-Type': 'application/octet-stream', // 或者根据文件类型设置
+//         //     'Content-Disposition': `attachment; filename="${filename}"` // 设置下载的文件名
+//         // });
+//         // // 通过管道方式写入
+//         // readStream.pipe(res);
+//     } else {
+//         res.status(404).send('File not found');
+//     }
+// });
+app.get('/download', (req, res) => {
+    const filePath = req.query.path;
+    if (fs.existsSync(filePath)) {
+        const filename = path.basename(filePath);
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+        res.setHeader('Content-Type', 'application/octet-stream');
+        fs.createReadStream(filePath).pipe(res);
     } else {
         res.status(404).send('File not found');
     }

@@ -101,6 +101,16 @@ const VideoCard = ({ video }) => {
         setShowConfirm(false);
     };
 
+    const downloadDocument = (filePath, fileName) => {
+        const url = `http://localhost:3001/download?path=${encodeURIComponent(filePath)}`;
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     return (
         <div className="video-card">
             <div className='card-video-container'>
@@ -116,6 +126,7 @@ const VideoCard = ({ video }) => {
                 <div className='card-info'>主播: {video.anchor}</div>
                 <div className='card-info'>技术方案: {video.technique}</div>
                 <div className="actions">
+                    <button onClick={() => downloadDocument(video.path, video.title)}>下载</button>
                     {isAdmin && (
                         <span>
                             <button onClick={() => handleiEdit(video.id, video.title, video.anchor, video.technique, video.tag)}>编辑</button>

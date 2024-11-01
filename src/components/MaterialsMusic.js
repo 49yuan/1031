@@ -240,6 +240,16 @@ const MaterialsMusic = () => {
         setShowConfirm(false);
     };
 
+    const downloadDocument = (filePath, fileName) => {
+        const url = `http://localhost:3001/download?path=${encodeURIComponent(filePath)}`;
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     return (
         <div className='content'>
             <div className="search-box">
@@ -298,16 +308,19 @@ const MaterialsMusic = () => {
                         </h3>
                         <hr />
                         <audio controls><source src={doc.url}></source></audio>
-                        {isAdmin && (
-                            <div className='actions'>
-                                <button onClick={() => handleiEdit(doc.id, doc.title, doc.tag)}>
-                                    编辑
-                                </button>
-                                <button className='delete' onClick={() => handleiDelete(doc.id, doc.path)}>
-                                    删除
-                                </button>
-                            </div>
-                        )}
+                        <div className='actions'>
+                            <button onClick={() => downloadDocument(doc.path, doc.title)}>下载</button>
+                            {isAdmin && (
+                                <span>
+                                    <button onClick={() => handleiEdit(doc.id, doc.title, doc.tag)}>
+                                        编辑
+                                    </button>
+                                    <button className='delete' onClick={() => handleiDelete(doc.id, doc.path)}>
+                                        删除
+                                    </button>
+                                </span>
+                            )}
+                        </div>
                     </div>
                 ))}
                 {isEditFormOpen && (

@@ -160,16 +160,15 @@ const MaterialsDocuments = () => {
             alert('文件上传失败');
         }
     };
-    const downloadDocument = (path) => {
-        //下载
-        const url = `http://localhost:3000/download?path=${encodeURIComponent(path)}`;
+    const downloadDocument = (filePath, fileName) => {
+        const url = `http://localhost:3001/download?path=${encodeURIComponent(filePath)}`;
         const link = document.createElement('a');
         link.href = url;
-        link.download = `${title}`;
+        link.download = fileName;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-    }
+    };
     const handleiEdit = (id, title, tag) => {
         setIsEditFormOpen(true);
         setTitle(title);
@@ -317,7 +316,7 @@ const MaterialsDocuments = () => {
                                     <td style={{ flex: '2' }}>
                                         <div className="actions">
                                             {/* <button onClick={() => viewDocument(doc.path)}>查看</button> */}
-                                            <button onClick={() => downloadDocument(doc.path)}>下载</button>
+                                            <button onClick={() => downloadDocument(doc.path, doc.title)}>下载</button>
                                             {isAdmin && (
                                                 <span>
                                                     <button onClick={() => handleiEdit(doc.id, doc.title, doc.tag)}>编辑</button>
