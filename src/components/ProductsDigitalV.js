@@ -435,9 +435,9 @@ const ProductsDigitalV = () => {
                 </div>
             )}
             <div className='videos'>
-                {andDocuments.map((video, index) => (
+                {andDocuments.map((video) => (
                     <VideoCard
-                        key={index}
+                        key={video.id}
                         video={video}
                     />
                 ))}

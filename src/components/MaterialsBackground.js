@@ -377,7 +377,7 @@ const MaterialsBackeground = () => {
                     <div className='gallery'>
                         {andDocuments.map((imageData, index) => (
                             <ImageCard
-                                key={index}
+                                key={imageData.id}
                                 id={(imageData.id)}
                                 stitle={imageData.title}
                                 stag={imageData.tag}

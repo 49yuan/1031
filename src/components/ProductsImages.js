@@ -333,7 +333,7 @@ const ProductsImages = () => {
                     <div className='gallery'>
                         {filteredDocuments.map((imageData, index) => (
                             <ImageCard
-                                key={index}
+                                key={imageData.id}
                                 id={(imageData.id)}
                                 stag={imageData.tag}
                                 spath={imageData.path}
