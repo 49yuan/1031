@@ -862,6 +862,32 @@ td {
   margin-right: 20px;
 }
 
+/* 人脸识别 */
+.facematch {
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.facematch h2 {
+  margin: 20px 0;
+}
+
+.facematch button {
+  display: inline-block;
+  margin-top: 10px;
+  width: 80px;
+  padding: 7px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.facematch button:hover {
+  background-color: #0056b3;
+}
+
 /* 响应式 */
 @media (max-width:1150px) {
 
@@ -879,5 +905,81 @@ td {
     top: 0;
     right: 0;
     margin: 20px auto;
+  }
+}
+
+/* 加载动画 */
+.load {
+  position: relative;
+  top: -27px;
+  left: 107px;
+  height: 0;
+}
+
+.loader {
+  width: 40px;
+  height: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#ld4 {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+
+#ld4 div {
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  background: #a4bebd;
+}
+
+#ld4 div:nth-child(1) {
+  animation: ld4 3s linear infinite 0s;
+}
+
+#ld4 div:nth-child(2) {
+  animation: ld4 3s linear infinite 0.15s;
+}
+
+#ld4 div:nth-child(3) {
+  animation: ld4 3s linear infinite 0.3s;
+}
+
+#ld4 div:nth-child(4) {
+  animation: ld4 3s linear infinite 0.45s;
+}
+
+@keyframes ld4 {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+    background: #b1c7cf;
+  }
+
+  25% {
+    opacity: 1;
+    transform: scale(1.8);
+    background: #3498db;
+  }
+
+  50% {
+    opacity: 0;
+    transform: scale(0.3);
+    background: #859db3;
+  }
+
+  75% {
+    opacity: 1;
+    transform: scale(1.8);
+    background: #007bff;
+  }
+
+  100% {
+    opacity: 0;
   }
 }

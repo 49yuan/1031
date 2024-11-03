@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import MaterialIcon from '../assets/MaterialIcon.jsx';
 import ProductIcon from '../assets/ProductIcon.jsx';
+import FaceMIcon from '../assets/FaceMIcon.jsx';
 
 const Sidebar = () => {
     const [isOpenMaterials, setIsOpenMaterials] = useState(false);
@@ -21,6 +22,9 @@ const Sidebar = () => {
     const getActiveClass = (path) => {
         return location.pathname === path ? 'active' : '';
     };
+    const getActive = (path) => {
+        return `sidebar-arrow ${location.pathname === path ? 'rotated' : ''}`;
+    }
     const arrowClass = (isOpen) => {
         return `sidebar-arrow ${isOpen ? 'rotated' : ''}`;
     };
@@ -66,6 +70,13 @@ const Sidebar = () => {
                         <li><Link to="/products/documents" className={getActiveClass("/products/documents")}>文章</Link></li>
                     </ul>
                 )}
+            </div>
+            <div className="sidebar-header">
+                <Link to="/facematch" >
+                    <button className={getActive('/facematch')} >
+                        <FaceMIcon />人脸匹配
+                    </button>
+                </Link>
             </div>
         </div>
     );

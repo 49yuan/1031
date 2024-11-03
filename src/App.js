@@ -16,6 +16,7 @@ import ProductsImages from './components/ProductsImages';
 import ProductsMusic from './components/ProductsMusic';
 import ProductsVideos from './components/ProductsVideos';
 import ProductsDigitalV from './components/ProductsDigitalV';
+import FaceMatchPage from './components/FaceMatchPage';
 // import ViewDocumentPage from './components/ViewDocumentPage';
 
 function Layout({ children }) {
@@ -54,6 +55,7 @@ function App() {
           <Route path="/products/music" element={<ProductsMusic />} />
           <Route path="/products/videos" element={<ProductsVideos />} />
           <Route path="/products/digitalv" element={<ProductsDigitalV />} />
+          <Route path='/facematch' element={<FaceMatchPage />} />
           {/* <Route path="/view-document" element={<ViewDocumentPage />} /> */}
         </Routes>
       </Layout>
