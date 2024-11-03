@@ -126,7 +126,7 @@ const ImageCard = ({ id, stag, spath, isExpanded, setIsExpanded, index }) => {
                 )
             }
             {isEditFormOpen && (
-                <div className="document-form-popup2">
+                <div className="document-form-popup">
                     <div className='form-popup'>
                         <h2>编辑图片</h2>
                         <div className='row'>

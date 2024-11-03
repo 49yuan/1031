@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import 'animate.css';
 
 const HomePage = () => {
 
@@ -30,8 +30,8 @@ const HomePage = () => {
 
     return (
         <div className="home-container">
-            <h1 className='title'>素材系统</h1>
-            <div className="login-card">
+            <h1 className='title animate__animated animate__fadeInLeft'>素材系统</h1>
+            <div className="login-card animate__animated animate__fadeInUp">
                 <div className='main-overlay'>
                     <div className='main-con'>
                         <div className='login-container'>

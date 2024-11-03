@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import MaterialIcon from '../assets/MaterialIcon.jsx';
+import ProductIcon from '../assets/ProductIcon.jsx';
 
 const Sidebar = () => {
     const [isOpenMaterials, setIsOpenMaterials] = useState(false);
@@ -32,13 +34,13 @@ const Sidebar = () => {
     }, [location]);
 
     return (
-        <div className="sidebar" style={{ width: '150px' }}>
+        <div className="sidebar animate__animated animate__fadeInLeft" style={{ width: '150px' }}>
             {/* <div className="sidebar-header">
                 <button><Link to="/dashboard" className={getActiveClass("/dashboard")}>首页</Link></button>
             </div> */}
             <div className="sidebar-header">
-                <button onClick={() => toggleMenu('materials')}>
-                    <span className={arrowClass(isOpenMaterials)} />素材库
+                <button onClick={() => toggleMenu('materials')} className={arrowClass(isOpenMaterials)} >
+                    <MaterialIcon />素材库
                 </button>
                 {isOpenMaterials && (
                     <ul className="sidebar-menu">
@@ -52,8 +54,8 @@ const Sidebar = () => {
                 )}
             </div>
             <div className={`sidebar-header ${getActiveClass('/products')}`}>
-                <button onClick={() => toggleMenu('products')}>
-                    <span className={arrowClass(isOpenProducts)} />成品库
+                <button onClick={() => toggleMenu('products')} className={arrowClass(isOpenProducts)} >
+                    <ProductIcon />成品库
                 </button>
                 {isOpenProducts && (
                     <ul className="sidebar-menu">

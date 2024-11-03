@@ -99,6 +99,7 @@ const ImageCard = ({ id, stag, spath, isExpanded, setIsExpanded, index }) => {
         const relativePath = spath.substring(baseDir.length);
         const serverPath = '/dataset' + relativePath;
         setUrl(serverPath);
+        console.log(serverPath);
     }, []);
     return (
         <div className='cardbox'>
@@ -125,7 +126,7 @@ const ImageCard = ({ id, stag, spath, isExpanded, setIsExpanded, index }) => {
                 )
             }
             {isEditFormOpen && (
-                <div className="document-form-popup2">
+                <div className="document-form-popup">
                     <div className='form-popup'>
                         <h2>编辑图片</h2>
                         <div className='row'>
@@ -186,6 +187,7 @@ const MaterialsImages = () => {
             .then(response => {
                 setImageData(response.data);
                 setFilteredDocuments(response.data);
+                console.log(response.data);
             })
             .catch(error => console.error('Error fetching:', error));
     }, []);

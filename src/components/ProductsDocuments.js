@@ -246,11 +246,13 @@ const ProductsDocuments = () => {
 
     return (
         <div className='content'>
-            <div className="search-box">
-                <input type="text" placeholder="搜索素材..." onChange={e => setSearchKeyword(e.target.value)}></input>
-                <button type="button" className="search-icon-button" onClick={e => handleSearch(e)}>
-                    <SousuoButton />
-                </button>
+            <div className='outbox'>
+                <div className="search-box">
+                    <input type="text" placeholder="搜索素材..." onChange={e => setSearchKeyword(e.target.value)}></input>
+                    <button type="button" className="search-icon-button" onClick={e => handleSearch(e)}>
+                        <SousuoButton />
+                    </button>
+                </div>
             </div>
             <div className="category-tags">
                 {categories.map(category => (
@@ -333,7 +335,7 @@ const ProductsDocuments = () => {
                         </tbody>
                     </table>
                     {isEditFormOpen && (
-                        <div className="document-form-popup2">
+                        <div className="document-form-popup">
                             <div className='form-popup'>
                                 <h2>编辑文章</h2>
                                 <div className='row'>
