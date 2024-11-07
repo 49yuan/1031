@@ -177,6 +177,9 @@ const ProductsImages = () => {
     const [filteredDocuments, setFilteredDocuments] = useState([]);
     const [categoryCounts, setCategoryCounts] = useState({});
     const [isExpanded, setIsExpanded] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1); // 当前页码
+    const [pageSize] = useState(20); // 每页显示的图片数，5的倍数
+    const [currentDocuments, setCurrentDocuments] = useState([]); // 当前页面的文档
 
     useEffect(() => {
         const userType = localStorage.getItem('userType');
@@ -192,7 +195,7 @@ const ProductsImages = () => {
     }, []);
     useEffect(() => {
         const tags = imageData.flatMap(doc => doc.tag.split(' ')); // 扁平化并分割标签
-        const uniqueTags = [...new Set(tags)]; // 获取唯一的标签
+        const uniqueTags = [...new Set(tags.filter(tag => tag !== null && tag !== ''))]; // 获取唯一的标签
         uniqueTags.unshift('全部'); // 在数组开始处添加'全部'
         setCategories(uniqueTags);
     }, [imageData]);
@@ -203,6 +206,7 @@ const ProductsImages = () => {
             filteredDs = imageData.filter(doc => doc.tag.includes(activeCategory));
         }
         setFilteredDocuments(filteredDs);
+        setCurrentPage(1);
     }, [activeCategory, imageData]);
 
     // 返回每个类别的数量
@@ -218,6 +222,16 @@ const ProductsImages = () => {
         setCategoryCounts(categoryCounts);
     }, [categories, imageData]);
 
+    useEffect(() => {
+        const start = (currentPage - 1) * pageSize;
+        const end = start + pageSize;
+        const paginatedImages = filteredDocuments.slice(start, end);
+        setCurrentDocuments(paginatedImages);
+    }, [currentPage, filteredDocuments]);
+
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+    };
 
     const handleCloseForm = () => {
         setIsUploadFormOpen(false);
@@ -331,7 +345,7 @@ const ProductsImages = () => {
             <div className='material'>
                 <div className="images">
                     <div className='gallery'>
-                        {filteredDocuments.map((imageData, index) => (
+                        {currentDocuments.map((imageData, index) => (
                             <ImageCard
                                 key={imageData.id}
                                 id={(imageData.id)}
@@ -344,6 +358,89 @@ const ProductsImages = () => {
                         ))}
                     </div>
                 </div>
+            </div>
+            <div className='pagination'>
+                <button
+                    className={`page-button ${currentPage === 1 ? 'disabled' : ''}`}
+                    onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                >
+                    &lt; 前一页
+                </button>
+                {currentPage > 1 && (
+                    <button
+                        className="page-button"
+                        onClick={() => handlePageChange(1)}
+                    >
+                        1
+                    </button>
+                )}
+                {currentPage > 3 && (
+                    <button
+                        className="page-button"
+                        onClick={() => handlePageChange(currentPage - 3)}
+                    >
+                        ...
+                    </button>
+                )}
+
+                {currentPage - 1 > 1 && (
+                    <button
+                        className="page-button"
+                        onClick={() => handlePageChange(currentPage - 1)}
+                    >
+                        {currentPage - 1}
+                    </button>
+                )}
+                <button
+                    className={`page-button ${currentPage === currentPage ? 'active' : ''}`}
+                >
+                    {currentPage}
+                </button>
+                {currentPage + 1 < Math.ceil(filteredDocuments.length / pageSize) && (
+                    <button
+                        className="page-button"
+                        onClick={() => handlePageChange(currentPage + 1)}
+                    >
+                        {currentPage + 1}
+                    </button>
+                )}
+
+                {(currentPage + 2 < Math.ceil(filteredDocuments.length / pageSize)) && (
+                    <button
+                        className="page-button"
+                        onClick={() => handlePageChange(currentPage + 3)}
+                    >
+                        ...
+                    </button>
+                )}
+                {(currentPage < Math.ceil(filteredDocuments.length / pageSize)) && (
+                    <button
+                        className="page-button"
+                        onClick={() => handlePageChange(Math.ceil(filteredDocuments.length / pageSize))}
+                    >
+                        {Math.ceil(filteredDocuments.length / pageSize)}
+                    </button>
+                )}
+                <button
+                    className={`page-button ${currentPage === Math.ceil(filteredDocuments.length / pageSize) ? 'disabled' : ''}`}
+                    onClick={() => currentPage < Math.ceil(filteredDocuments.length / pageSize) && handlePageChange(currentPage + 1)}
+                    disabled={currentPage === Math.ceil(filteredDocuments.length / pageSize)}
+                >
+                    后一页 &gt;
+                </button>
+                <input
+                    type="number"
+                    min="1"
+                    max={Math.ceil(filteredDocuments.length / pageSize)}
+                    value={currentPage}
+                    onChange={(e) => {
+                        const page = parseInt(e.target.value, 10);
+                        if (page >= 1 && page <= Math.ceil(filteredDocuments.length / pageSize)) {
+                            handlePageChange(page);
+                        }
+                    }}
+                />
             </div>
         </div>
     );

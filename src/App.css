@@ -983,3 +983,44 @@ td {
     opacity: 0;
   }
 }
+
+/* 分页器 */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.page-button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.page-button.disabled {
+  cursor: default;
+  border-color: #eee;
+}
+
+.page-button.active {
+  font-weight: bold;
+  border-color: #007bff;
+  background-color: #007bff;
+  color: white;
+}
+
+input[type="number"] {
+  margin: 0 10px;
+  padding: 5px;
+  background-color: transparent;
+  border: #007bff solid 1px;
+  text-align: center;
+}
+
+/* 针对所有浏览器 */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

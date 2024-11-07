@@ -58,6 +58,49 @@ function FaceMatchPage() {
         }
     };
 
+    useEffect(() => {
+        const initialData = [
+            {
+                id: 1,
+                image: 'https://g-search3.alicdn.com/img/bao/uploaded/i4/i2/3175268816/O1CN01kPW4Ou2Ezmfgehr14_!!0-item_pic.jpg_.webp',
+                tag: 'tag1 tag2'
+            },
+            {
+                id: 2,
+                image: 'https://img.alicdn.com/imgextra/i2/2212229958534/O1CN01HBmYW92Cud0ZJQvml_!!2212229958534.jpg_.webp',
+                tag: 'tag2 tag3'
+            },
+            {
+                id: 3,
+                image: 'https://g-search3.alicdn.com/img/bao/uploaded/i4/i2/3175268816/O1CN01kPW4Ou2Ezmfgehr14_!!0-item_pic.jpg_.webp',
+                tag: 'tag1 tag3'
+            },
+            {
+                id: 4,
+                image: 'https://g-search3.alicdn.com/img/bao/uploaded/i4/i2/3175268816/O1CN01kPW4Ou2Ezmfgehr14_!!0-item_pic.jpg_.webp',
+                tag: 'tag1 tag3'
+            },
+        ];
+        setMatchImage(initialData);
+        const initialVData = [
+            {
+                id: 1,
+                url: 'https://cloud.video.taobao.com/play/u/80827497/p/2/e/6/t/1/474905473544.mp4?appKey=38829',
+                title: 'tag1 tag2',
+                anchor: '111',
+                technique: '12345'
+            },
+            {
+                id: 2,
+                url: 'https://cloud.video.taobao.com/play/u/80827497/p/2/e/6/t/1/474905473544.mp4?appKey=38829',
+                title: 'tag2 tag3',
+                anchor: '111',
+                technique: '12345'
+            },
+        ];
+        setMatchVideo(initialVData);
+    }, []);
+
     return (
         <div className='content facematch'>
             <h1>上传图片匹配对应人物资料</h1>
@@ -98,7 +141,7 @@ function FaceMatchPage() {
                 <h2>Matched Videos:</h2>
                 <div className='videos'>
                     {matchVideo.map((result, index) => (
-                        <div className="video-card">
+                        <div key={index} className="video-card">
                             <div className='card-video-container'>
                                 <video
                                     width="100%"
@@ -122,47 +165,5 @@ function FaceMatchPage() {
 export default FaceMatchPage;
 
 // 前端模拟数据
-// useEffect(() => {
-//     const initialData = [
-//         {
-//             id: 1,
-//             image: 'https://g-search3.alicdn.com/img/bao/uploaded/i4/i2/3175268816/O1CN01kPW4Ou2Ezmfgehr14_!!0-item_pic.jpg_.webp',
-//             tag: 'tag1 tag2'
-//         },
-//         {
-//             id: 2,
-//             image: 'https://img.alicdn.com/imgextra/i2/2212229958534/O1CN01HBmYW92Cud0ZJQvml_!!2212229958534.jpg_.webp',
-//             tag: 'tag2 tag3'
-//         },
-//         {
-//             id: 3,
-//             image: 'https://g-search3.alicdn.com/img/bao/uploaded/i4/i2/3175268816/O1CN01kPW4Ou2Ezmfgehr14_!!0-item_pic.jpg_.webp',
-//             tag: 'tag1 tag3'
-//         },
-//         {
-//             id: 4,
-//             image: 'https://g-search3.alicdn.com/img/bao/uploaded/i4/i2/3175268816/O1CN01kPW4Ou2Ezmfgehr14_!!0-item_pic.jpg_.webp',
-//             tag: 'tag1 tag3'
-//         },
-//     ];
-//     setMatchImage(initialData);
-//     const initialVData = [
-//         {
-//             id: 1,
-//             url: 'https://cloud.video.taobao.com/play/u/80827497/p/2/e/6/t/1/474905473544.mp4?appKey=38829',
-//             title: 'tag1 tag2',
-//             anchor: '111',
-//             technique: '12345'
-//         },
-//         {
-//             id: 2,
-//             url: 'https://cloud.video.taobao.com/play/u/80827497/p/2/e/6/t/1/474905473544.mp4?appKey=38829',
-//             title: 'tag2 tag3',
-//             anchor: '111',
-//             technique: '12345'
-//         },
-//     ];
-//     setMatchVideo(initialVData);
-//     setMatchDigital(initialVData);
-// }, []);
+
 

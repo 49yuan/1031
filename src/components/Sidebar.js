@@ -71,13 +71,13 @@ const Sidebar = () => {
                     </ul>
                 )}
             </div>
-            <div className="sidebar-header">
+            {/* <div className="sidebar-header">
                 <Link to="/facematch" >
                     <button className={getActive('/facematch')} >
                         <FaceMIcon />人脸匹配
                     </button>
                 </Link>
-            </div>
+            </div> */}
         </div>
     );
 };

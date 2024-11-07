@@ -55,7 +55,7 @@ function App() {
           <Route path="/products/music" element={<ProductsMusic />} />
           <Route path="/products/videos" element={<ProductsVideos />} />
           <Route path="/products/digitalv" element={<ProductsDigitalV />} />
-          <Route path='/facematch' element={<FaceMatchPage />} />
+          {/* <Route path='/facematch' element={<FaceMatchPage />} /> */}
           {/* <Route path="/view-document" element={<ViewDocumentPage />} /> */}
         </Routes>
       </Layout>

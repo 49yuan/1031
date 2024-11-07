@@ -99,7 +99,6 @@ const ImageCard = ({ id, stag, spath, isExpanded, setIsExpanded, index }) => {
         const relativePath = spath.substring(baseDir.length);
         const serverPath = '/dataset' + relativePath;
         setUrl(serverPath);
-        console.log(serverPath);
     }, []);
     return (
         <div className='cardbox'>
@@ -177,6 +176,9 @@ const MaterialsImages = () => {
     const [filteredDocuments, setFilteredDocuments] = useState([]);
     const [categoryCounts, setCategoryCounts] = useState({});
     const [isExpanded, setIsExpanded] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1); // 当前页码
+    const [pageSize] = useState(20); // 每页显示的图片数，5的倍数
+    const [currentDocuments, setCurrentDocuments] = useState([]); // 当前页面的文档
 
     useEffect(() => {
         const userType = localStorage.getItem('userType');
@@ -187,13 +189,12 @@ const MaterialsImages = () => {
             .then(response => {
                 setImageData(response.data);
                 setFilteredDocuments(response.data);
-                console.log(response.data);
             })
             .catch(error => console.error('Error fetching:', error));
     }, []);
     useEffect(() => {
         const tags = imageData.flatMap(doc => doc.tag.split(' ')); // 扁平化并分割标签
-        const uniqueTags = [...new Set(tags)]; // 获取唯一的标签
+        const uniqueTags = [...new Set(tags.filter(tag => tag !== ''))]; // 获取唯一的标签并过滤空字符串
         uniqueTags.unshift('全部'); // 在数组开始处添加'全部'
         setCategories(uniqueTags);
     }, [imageData]);
@@ -204,6 +205,7 @@ const MaterialsImages = () => {
             filteredDs = imageData.filter(doc => doc.tag.includes(activeCategory));
         }
         setFilteredDocuments(filteredDs);
+        setCurrentPage(1);
     }, [activeCategory, imageData]);
 
     // 返回每个类别的数量
@@ -219,6 +221,17 @@ const MaterialsImages = () => {
         setCategoryCounts(categoryCounts);
     }, [categories, imageData]);
 
+
+    useEffect(() => {
+        const start = (currentPage - 1) * pageSize;
+        const end = start + pageSize;
+        const paginatedImages = filteredDocuments.slice(start, end);
+        setCurrentDocuments(paginatedImages);
+    }, [currentPage, filteredDocuments]);
+
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+    };
 
     const handleCloseForm = () => {
         setIsUploadFormOpen(false);
@@ -332,7 +345,7 @@ const MaterialsImages = () => {
             <div className='material'>
                 <div className="images">
                     <div className='gallery'>
-                        {filteredDocuments.map((imageData, index) => (
+                        {currentDocuments.map((imageData, index) => (
                             <ImageCard
                                 key={imageData.id}
                                 id={(imageData.id)}
@@ -345,6 +358,89 @@ const MaterialsImages = () => {
                         ))}
                     </div>
                 </div>
+            </div>
+            <div className='pagination'>
+                <button
+                    className={`page-button ${currentPage === 1 ? 'disabled' : ''}`}
+                    onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                >
+                    &lt; 前一页
+                </button>
+                {currentPage > 1 && (
+                    <button
+                        className="page-button"
+                        onClick={() => handlePageChange(1)}
+                    >
+                        1
+                    </button>
+                )}
+                {currentPage > 3 && (
+                    <button
+                        className="page-button"
+                        onClick={() => handlePageChange(currentPage - 3)}
+                    >
+                        ...
+                    </button>
+                )}
+
+                {currentPage - 1 > 1 && (
+                    <button
+                        className="page-button"
+                        onClick={() => handlePageChange(currentPage - 1)}
+                    >
+                        {currentPage - 1}
+                    </button>
+                )}
+                <button
+                    className={`page-button ${currentPage === currentPage ? 'active' : ''}`}
+                >
+                    {currentPage}
+                </button>
+                {currentPage + 1 < Math.ceil(filteredDocuments.length / pageSize) && (
+                    <button
+                        className="page-button"
+                        onClick={() => handlePageChange(currentPage + 1)}
+                    >
+                        {currentPage + 1}
+                    </button>
+                )}
+
+                {(currentPage + 2 < Math.ceil(filteredDocuments.length / pageSize)) && (
+                    <button
+                        className="page-button"
+                        onClick={() => handlePageChange(currentPage + 3)}
+                    >
+                        ...
+                    </button>
+                )}
+                {(currentPage < Math.ceil(filteredDocuments.length / pageSize)) && (
+                    <button
+                        className="page-button"
+                        onClick={() => handlePageChange(Math.ceil(filteredDocuments.length / pageSize))}
+                    >
+                        {Math.ceil(filteredDocuments.length / pageSize)}
+                    </button>
+                )}
+                <button
+                    className={`page-button ${currentPage === Math.ceil(filteredDocuments.length / pageSize) ? 'disabled' : ''}`}
+                    onClick={() => currentPage < Math.ceil(filteredDocuments.length / pageSize) && handlePageChange(currentPage + 1)}
+                    disabled={currentPage === Math.ceil(filteredDocuments.length / pageSize)}
+                >
+                    后一页 &gt;
+                </button>
+                <input
+                    type="number"
+                    min="1"
+                    max={Math.ceil(filteredDocuments.length / pageSize)}
+                    value={currentPage}
+                    onChange={(e) => {
+                        const page = parseInt(e.target.value, 10);
+                        if (page >= 1 && page <= Math.ceil(filteredDocuments.length / pageSize)) {
+                            handlePageChange(page);
+                        }
+                    }}
+                />
             </div>
         </div>
     );

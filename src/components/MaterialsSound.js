@@ -21,6 +21,9 @@ const MaterialsSound = () => {
     const [andDocuments, setAndDocuments] = useState([]);
     const [categoryCounts, setCategoryCounts] = useState({});
     const [searchKeyword, setSearchKeyword] = useState('');
+    const [currentPage, setCurrentPage] = useState(1); // 当前页码
+    const [pageSize] = useState(40);
+    const [currentDocuments, setCurrentDocuments] = useState([]); // 当前
 
     useEffect(() => {
         const userType = localStorage.getItem('userType');
@@ -46,6 +49,7 @@ const MaterialsSound = () => {
     const handleSearch = (e) => {
         if (searchKeyword === '') {
             setFilteredDocuments(music);
+            setActiveCategory('全部');
         }
         else {
             //后端api，like模糊匹配
@@ -79,6 +83,7 @@ const MaterialsSound = () => {
             });
         }
         setAndDocuments(filteredDs);
+        setCurrentPage(1);
     }, [activeCategory, filteredDocuments]);
 
     // 返回每个类别的数量
@@ -93,6 +98,17 @@ const MaterialsSound = () => {
         }, {});
         setCategoryCounts(categoryCounts);
     }, [categories, filteredDocuments, andDocuments]);
+
+    useEffect(() => {
+        const start = (currentPage - 1) * pageSize;
+        const end = start + pageSize;
+        const paginatedImages = andDocuments.slice(start, end);
+        setCurrentDocuments(paginatedImages);
+    }, [currentPage, andDocuments]);
+
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+    };
 
     const handleCloseForm = () => {
         setIsUploadFormOpen(false);
@@ -301,7 +317,7 @@ const MaterialsSound = () => {
                 </div>
             )}
             <div className='music'>
-                {andDocuments.map((doc) => (
+                {currentDocuments.map((doc) => (
                     <div key={doc.id} className='music-card'>
                         <h3 className='music-title' title={doc.title}>
                             {doc.title}
@@ -369,6 +385,89 @@ const MaterialsSound = () => {
                         </div>
                     </div>
                 )}
+            </div>
+            <div className='pagination'>
+                <button
+                    className={`page-button ${currentPage === 1 ? 'disabled' : ''}`}
+                    onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                >
+                    &lt; 前一页
+                </button>
+                {currentPage > 1 && (
+                    <button
+                        className="page-button"
+                        onClick={() => handlePageChange(1)}
+                    >
+                        1
+                    </button>
+                )}
+                {currentPage > 3 && (
+                    <button
+                        className="page-button"
+                        onClick={() => handlePageChange(currentPage - 3)}
+                    >
+                        ...
+                    </button>
+                )}
+
+                {currentPage - 1 > 1 && (
+                    <button
+                        className="page-button"
+                        onClick={() => handlePageChange(currentPage - 1)}
+                    >
+                        {currentPage - 1}
+                    </button>
+                )}
+                <button
+                    className={`page-button ${currentPage === currentPage ? 'active' : ''}`}
+                >
+                    {currentPage}
+                </button>
+                {currentPage + 1 < Math.ceil(andDocuments.length / pageSize) && (
+                    <button
+                        className="page-button"
+                        onClick={() => handlePageChange(currentPage + 1)}
+                    >
+                        {currentPage + 1}
+                    </button>
+                )}
+
+                {(currentPage + 2 < Math.ceil(andDocuments.length / pageSize)) && (
+                    <button
+                        className="page-button"
+                        onClick={() => handlePageChange(currentPage + 3)}
+                    >
+                        ...
+                    </button>
+                )}
+                {(currentPage < Math.ceil(andDocuments.length / pageSize)) && (
+                    <button
+                        className="page-button"
+                        onClick={() => handlePageChange(Math.ceil(andDocuments.length / pageSize))}
+                    >
+                        {Math.ceil(andDocuments.length / pageSize)}
+                    </button>
+                )}
+                <button
+                    className={`page-button ${currentPage === Math.ceil(andDocuments.length / pageSize) ? 'disabled' : ''}`}
+                    onClick={() => currentPage < Math.ceil(andDocuments.length / pageSize) && handlePageChange(currentPage + 1)}
+                    disabled={currentPage === Math.ceil(andDocuments.length / pageSize)}
+                >
+                    后一页 &gt;
+                </button>
+                <input
+                    type="number"
+                    min="1"
+                    max={Math.ceil(andDocuments.length / pageSize)}
+                    value={currentPage}
+                    onChange={(e) => {
+                        const page = parseInt(e.target.value, 10);
+                        if (page >= 1 && page <= Math.ceil(andDocuments.length / pageSize)) {
+                            handlePageChange(page);
+                        }
+                    }}
+                />
             </div>
         </div>
     );
