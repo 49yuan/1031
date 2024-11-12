@@ -4,7 +4,7 @@ This is a React application developed for a specific department of the Public Se
 
 ## Overview
 
-The application is divided into five main sections: images, documents, audio, video, and digital human matching. It provides a user-friendly interface for viewing, downloading, and searching files, with additional editing, deleting, and uploading capabilities for admin users.<br />
+The application is divided into five main sections: images, documents, audio, video, and digital human matching. It provides a user-friendly interface for viewing, downloading, and searching files, with additional editing, deleting, and uploading capabilities for admin users.<br /><br />
 ![HomePage](./src/assets/works/homepage.png)
 ## Features
 
@@ -13,7 +13,7 @@ The application is divided into five main sections: images, documents, audio, vi
 - **Responsive Design**: The layout is responsive, But it does not provide user-friendly access for particularly small screens or mobile devices.
 - **Search Functionality**: A search box allows for title-based fuzzy matching, and tags are used for categorization.
 - **Viewing**:
- - The image viewing is set up as a detail tab, centrally displayed and uniformly occupying 70vh of the viewport height, with the width set to be responsive, and if it exceeds, it will be displayed with a scroll.
+ - The image viewing is set up as a detail tab, centrally displayed and uniformly occupying 70vh of the viewport height, with the width set to be responsive, and if it exceeds, it will be displayed with a scroll.<br /><br />
  ![Example of Large Size Image Details](./src/assets/works/bigimaged.png)
  ![Example of Smaller Size Image Details](./src/assets/works/litterimaged.png)
  - For document viewing, an iframe tab was initially coded, but later it was realized that all documents are .word files (which are not viewable on the web, perhaps you need to find another API), so this part was not enabled.
@@ -25,7 +25,8 @@ The application is divided into five main sections: images, documents, audio, vi
 - **Uploading**: The application uses multer to handle file uploads, saving files to the local dataset and updating the database accordingly.
 - **Editing**: Admins can edit file metadata in the database.
 - **Deleting**: Admins can delete files, this includes two types: deleting only database information and deleting source files together.
- -
+
+
 ![ImagePage](./src/assets/works/imagepage.png)
 ![DocumentPage](./src/assets/works/documentpage.png)
 ### Digital Human Matching
