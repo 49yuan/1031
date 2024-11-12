@@ -33,8 +33,8 @@ function FaceMatchPage() {
             const formData = new FormData();
             formData.append('img', file);
 
-            const imageData = await fetchMatchData('http://teio.xyz:8080/api/face_align_image', formData);
-            const videoData = await fetchMatchData('http://teio.xyz:8080/api/face_align_video', formData);
+            const imageData = await fetchMatchData('/api/match-image', formData);
+            const videoData = await fetchMatchData('/api/match-video', formData);
 
             const updatePaths = (data, baseDir) =>
                 data.map(item => {
@@ -44,8 +44,8 @@ function FaceMatchPage() {
                     return { ...item, url: serverPath };
                 });
 
-            const updatedImageData = Array.isArray(imageData) && imageData.length > 0 ? updatePaths(imageData, 'D:/2024/dataset') : [];
-            const updatedVideoData = Array.isArray(videoData) && videoData.length > 0 ? updatePaths(videoData, 'D:/2024/dataset') : [];
+            const updatedImageData = Array.isArray(imageData) && imageData.length > 0 ? updatePaths(imageData.data, 'D:/2024/dataset') : [];
+            const updatedVideoData = Array.isArray(videoData) && videoData.length > 0 ? updatePaths(videoData.data, 'D:/2024/dataset') : [];
 
             console.log('img:', imageData, 'Video:', videoData);
             setMatchImage(updatedImageData);
