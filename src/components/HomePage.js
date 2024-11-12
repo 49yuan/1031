@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import 'animate.css';
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
 const HomePage = () => {
 
@@ -10,7 +11,7 @@ const HomePage = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        const response = await fetch('http://localhost:3001/login', {
+        const response = await fetch(`${apiBaseUrl}/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

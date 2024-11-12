@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SousuoButton from '../assets/SousuoButton.jsx';
 import axios from 'axios';
-
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 const VideoCard = ({ video }) => {
     const [isAdmin, setIsAdmin] = useState(false);
     const [isUploadFormOpen, setIsUploadFormOpen] = useState(false);
@@ -41,7 +41,7 @@ const VideoCard = ({ video }) => {
     const handleEdit = async () => {
         // 处理编辑事件
         try {
-            const response = await fetch('http://localhost:3001/updatepdv', {
+            const response = await fetch(`${apiBaseUrl}/updatepdv`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ const VideoCard = ({ video }) => {
     const handleDelete = () => {
         let ipath = handlepath;
         if (!isalldelete) { ipath = ''; }
-        fetch('http://localhost:3001/api/deletepdv', {
+        fetch(`${apiBaseUrl}/api/deletepdv`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ const VideoCard = ({ video }) => {
     };
 
     const downloadDocument = (filePath, fileName) => {
-        const url = `http://localhost:3001/download?path=${encodeURIComponent(filePath)}`;
+        const url = `${apiBaseUrl}/download?path=${encodeURIComponent(filePath)}`;
         const link = document.createElement('a');
         link.href = url;
         link.download = fileName;
@@ -124,7 +124,7 @@ const VideoCard = ({ video }) => {
             <div className="card-content">
                 <div className='card-title' title={video.title}>{video.title}</div>
                 <div className='card-info'>主播: {video.anchor}</div>
-                <div className='card-info'>备注: {video.technique}</div>
+                <div className='card-info' title={video.technique}>备注: {video.technique}</div>
                 <div className="actions">
                     <button onClick={() => downloadDocument(video.path, video.title)}>下载</button>
                     {isAdmin && (
@@ -232,7 +232,7 @@ const ProductsDigitalV = () => {
     }, []);
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/pdv')
+        axios.get(`${apiBaseUrl}/api/pdv`)
             .then(response => {
                 // 将每个视频文件的绝对路径转换为相对路径，并添加到 music.url
                 const updatedVideo = response.data.map(item => {
@@ -255,7 +255,7 @@ const ProductsDigitalV = () => {
         }
         else {
             //后端api，like模糊匹配
-            axios.get('http://localhost:3001/api/searchpdv', { params: { keyword: searchKeyword } })
+            axios.get(`${apiBaseUrl}/api/searchpdv`, { params: { keyword: searchKeyword } })
                 .then(response => {
                     setFilteredDocuments(response.data);
                 })
@@ -350,7 +350,7 @@ const ProductsDigitalV = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:3001/api/pdvupload', {
+            const response = await fetch(`${apiBaseUrl}/api/pdvupload`, {
                 method: 'POST',
                 body: formData,
             });
@@ -372,7 +372,7 @@ const ProductsDigitalV = () => {
             };
 
             try {
-                const dbResponse = await fetch('http://localhost:3001/uploadpdv', {
+                const dbResponse = await fetch(`${apiBaseUrl}/uploadpdv`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from 'react';
 import SousuoButton from '../assets/SousuoButton.jsx';
 import axios from 'axios';
-
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 const MaterialsSound = () => {
     const [isAdmin, setIsAdmin] = useState(false);
     const [isUploadFormOpen, setIsUploadFormOpen] = useState(false);
@@ -30,7 +30,7 @@ const MaterialsSound = () => {
         setIsAdmin(userType === 'admin');
     }, []);
     useEffect(() => {
-        axios.get('http://localhost:3001/api/ms')
+        axios.get(`${apiBaseUrl}/api/ms`)
             .then(response => {
                 // 将每个音乐文件的绝对路径转换为相对路径，并添加到 music.url
                 const updatedMusic = response.data.map(item => {
@@ -53,7 +53,7 @@ const MaterialsSound = () => {
         }
         else {
             //后端api，like模糊匹配
-            axios.get('http://localhost:3001/api/searchms', { params: { keyword: searchKeyword } })
+            axios.get(`${apiBaseUrl}/api/searchms`, { params: { keyword: searchKeyword } })
                 .then(response => {
                     setFilteredDocuments(response.data);
                 })
@@ -144,7 +144,7 @@ const MaterialsSound = () => {
 
         try {
             // 保存在本地
-            const response = await fetch('http://localhost:3001/api/msupload', {
+            const response = await fetch(`${apiBaseUrl}/api/msupload`, {
                 method: 'POST',
                 body: formData,
             });
@@ -164,7 +164,7 @@ const MaterialsSound = () => {
             };
 
             try {
-                const dbResponse = await fetch('http://localhost:3001/uploadms', {
+                const dbResponse = await fetch(`${apiBaseUrl}/uploadms`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -197,7 +197,7 @@ const MaterialsSound = () => {
     }
     const handleEdit = async () => {
         try {
-            const response = await fetch('http://localhost:3001/updatems', {
+            const response = await fetch(`${apiBaseUrl}/updatems`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -235,7 +235,7 @@ const MaterialsSound = () => {
     const handleDelete = () => {
         let ipath = handlepath;
         if (!isalldelete) { ipath = ''; }
-        fetch('http://localhost:3001/api/deletems', {
+        fetch(`${apiBaseUrl}/api/deletems`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -255,7 +255,7 @@ const MaterialsSound = () => {
         setShowConfirm(false);
     };
     const downloadDocument = (filePath, fileName) => {
-        const url = `http://localhost:3001/download?path=${encodeURIComponent(filePath)}`;
+        const url = `${apiBaseUrl}/download?path=${encodeURIComponent(filePath)}`;
         const link = document.createElement('a');
         link.href = url;
         link.download = fileName;

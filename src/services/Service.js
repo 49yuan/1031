@@ -6,10 +6,10 @@ const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const path = require('path');
 const fs = require('fs');
-
+require('dotenv').config();
 const app = express();
-const port = 3001;
-
+const port = process.env.REACT_APP_SERVER_PORT || 3001;
+console.log(process.env.REACT_APP_DB_HOST);
 app.use(cors());
 app.use(bodyParser.json());
 // 允许跨域请求
@@ -22,11 +22,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/dataset', express.static(path.join('D:', '2024', 'dataset')));
 // MySQL连接配置
 const connection = mysql.createConnection({
-    host: '127.0.0.1',
-    port: 3306,
-    user: 'root',
-    password: 'test0409',
-    database: 'materiallibrarydb'
+    host: process.env.REACT_APP_DB_HOST,
+    port: process.env.REACT_APP_DB_PORT,
+    user: process.env.REACT_APP_DB_USER,
+    password: process.env.REACT_APP_DB_PASSWORD,
+    database: process.env.REACT_APP_DB_NAME
 });
 connection.connect((err) => {
     if (err) {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SousuoButton from '../assets/SousuoButton.jsx';
 import axios from 'axios';
-
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 const MaterialsDocuments = () => {
     const [isAdmin, setIsAdmin] = useState(false);
     const [isUploadFormOpen, setIsUploadFormOpen] = useState(false);
@@ -32,7 +32,7 @@ const MaterialsDocuments = () => {
     }, []);
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/md')
+        axios.get(`${apiBaseUrl}/api/md`)
             .then(response => {
                 setDocuments(response.data);
                 setFilteredDocuments(response.data);
@@ -47,7 +47,7 @@ const MaterialsDocuments = () => {
         }
         else {
             //后端api，like模糊匹配
-            axios.get('http://localhost:3001/api/searchmd', { params: { keyword: searchKeyword } })
+            axios.get(`${apiBaseUrl}/api/searchmd`, { params: { keyword: searchKeyword } })
                 .then(response => {
                     setFilteredDocuments(response.data);
                 })
@@ -132,7 +132,7 @@ const MaterialsDocuments = () => {
 
         try {
             // 保存在本地
-            const response = await fetch('http://localhost:3001/api/mdupload', {
+            const response = await fetch(`${apiBaseUrl}/api/mdupload`, {
                 method: 'POST',
                 body: formData,
             });
@@ -152,7 +152,7 @@ const MaterialsDocuments = () => {
             };
 
             try {
-                const dbResponse = await fetch('http://localhost:3001/uploadmd', {
+                const dbResponse = await fetch(`${apiBaseUrl}/uploadmd`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -177,7 +177,7 @@ const MaterialsDocuments = () => {
         }
     };
     const downloadDocument = (filePath, fileName) => {
-        const url = `http://localhost:3001/download?path=${encodeURIComponent(filePath)}`;
+        const url = `${apiBaseUrl}/download?path=${encodeURIComponent(filePath)}`;
         const link = document.createElement('a');
         link.href = url;
         link.download = fileName;
@@ -194,7 +194,7 @@ const MaterialsDocuments = () => {
     const handleEdit = async () => {
         // 处理编辑事件
         try {
-            const response = await fetch('http://localhost:3001/updatemd', {
+            const response = await fetch(`${apiBaseUrl}/updatemd`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -237,7 +237,7 @@ const MaterialsDocuments = () => {
     const handleDelete = () => {
         let ipath = handlepath;
         if (!isalldelete) { ipath = ''; }
-        fetch('http://localhost:3001/api/deletemd', {
+        fetch(`${apiBaseUrl}/api/deletemd`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

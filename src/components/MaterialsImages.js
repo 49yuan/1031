@@ -1,5 +1,6 @@
-import { React, useState, useEffect } from 'react';
+import { React, useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 // ImageCard组件
 const ImageCard = ({ id, stag, spath, isExpanded, setIsExpanded, index }) => {
     const toggleDetails = () => {
@@ -34,7 +35,7 @@ const ImageCard = ({ id, stag, spath, isExpanded, setIsExpanded, index }) => {
     const handleEdit = async () => {
         // 处理编辑事件
         try {
-            const response = await fetch('http://localhost:3001/updatemi', {
+            const response = await fetch(`${apiBaseUrl}/updatemi`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -71,7 +72,7 @@ const ImageCard = ({ id, stag, spath, isExpanded, setIsExpanded, index }) => {
     const handleDelete = () => {
         let ipath = handlepath;
         if (!isalldelete) { ipath = ''; }
-        fetch('http://localhost:3001/api/deletemi', {
+        fetch(`${apiBaseUrl}/api/deletemi`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -100,6 +101,22 @@ const ImageCard = ({ id, stag, spath, isExpanded, setIsExpanded, index }) => {
         const serverPath = '/dataset' + relativePath;
         setUrl(serverPath);
     }, []);
+    const imgRef = useRef(null);
+    const [hasCalculatedWidth, setHasCalculatedWidth] = useState(false);//标志位
+
+    const handleImageLoad = () => {
+        if (imgRef.current) {
+            const naturalWidth = imgRef.current.naturalWidth;
+            const naturalHeight = imgRef.current.naturalHeight;
+            // console.log('height:', naturalHeight, 'width:', naturalWidth, window.innerHeight, window.innerWidth);
+            if ((naturalWidth / naturalHeight) > (window.innerWidth / window.innerHeight)) {
+                setHasCalculatedWidth(true);
+            } else {
+                setHasCalculatedWidth(false);
+            }
+            // console.log(hasCalculatedWidth);
+        }
+    }
     return (
         <div className='cardbox'>
             <div className="card">
@@ -120,7 +137,17 @@ const ImageCard = ({ id, stag, spath, isExpanded, setIsExpanded, index }) => {
             {
                 isExpanded === index && (
                     <div className="card-details">
-                        <img src={url} />
+                        <div className="card-details-content">
+                            <img
+                                src={url}
+                                ref={imgRef}
+                                onLoad={handleImageLoad}
+                                style={{ height: '70vh', width: 'auto' }}
+                            />
+                            <button className={`${hasCalculatedWidth ? 'close-button2' : 'close-button'}`} onClick={toggleDetails}>
+                                ×
+                            </button>
+                        </div>
                     </div>
                 )
             }
@@ -185,7 +212,7 @@ const MaterialsImages = () => {
         setIsAdmin(userType === 'admin');
     }, []);
     useEffect(() => {
-        axios.get('http://localhost:3001/api/mi')
+        axios.get(`${apiBaseUrl}/api/mi`)
             .then(response => {
                 setImageData(response.data);
                 setFilteredDocuments(response.data);
@@ -260,7 +287,7 @@ const MaterialsImages = () => {
 
         try {
             // 保存在本地
-            const response = await fetch('http://localhost:3001/api/miupload', {
+            const response = await fetch(`${apiBaseUrl}/api/miupload`, {
                 method: 'POST',
                 body: formData,
             });
@@ -279,7 +306,7 @@ const MaterialsImages = () => {
             };
 
             try {
-                const dbResponse = await fetch('http://localhost:3001/uploadmi', {
+                const dbResponse = await fetch(`${apiBaseUrl}/uploadmi`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

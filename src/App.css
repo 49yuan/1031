@@ -624,14 +624,68 @@ td {
   cursor: pointer;
 } */
 
-.card-details {
+/* .card-details {
   z-index: 10;
   position: absolute;
   left: 170px;
+} */
+.card-details {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.card-details .card-details-content {
+  max-width: 70%;
+  max-height: 100%;
+  margin: auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
 }
 
 .card-details img {
-  height: 100vh;
+  height: 70vh;
+  position: relative;
+}
+
+.card-details .close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  height: 24px;
+  width: 26px;
+  font-size: 24px;
+  line-height: 22px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.9);
+  border: solid 1px rgba(0, 0, 0, 0.8);
+  border-radius: 5px;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.card-details .close-button2 {
+  position: fixed;
+  top: 15.5vh;
+  right: 15.5vw;
+  height: 24px;
+  width: 26px;
+  font-size: 24px;
+  line-height: 22px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.9);
+  border: solid 1px rgba(0, 0, 0, 0.8);
+  border-radius: 5px;
+  color: rgba(0, 0, 0, 0.8);
 }
 
 /* 音乐 */

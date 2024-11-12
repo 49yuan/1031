@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 const RegisterPage = () => {
     const [name, setName] = useState('');
     const [workNumber, setWorkNumber] = useState('');
@@ -14,7 +14,7 @@ const RegisterPage = () => {
     const handleRegister = async (e) => {
         e.preventDefault();
         if ((password === confirmPassword) && (!(!name || !workNumber || !password))) {
-            const response = await fetch('http://localhost:3001/register', {
+            const response = await fetch(`${apiBaseUrl}/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

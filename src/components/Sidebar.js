@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import MaterialIcon from '../assets/MaterialIcon.jsx';
 import ProductIcon from '../assets/ProductIcon.jsx';
-import FaceMIcon from '../assets/FaceMIcon.jsx';
+// import FaceMIcon from '../assets/FaceMIcon.jsx';
 
 const Sidebar = () => {
     const [isOpenMaterials, setIsOpenMaterials] = useState(false);

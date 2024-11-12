@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SousuoButton from '../assets/SousuoButton.jsx';
 import axios from 'axios';
-
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 const ProductsDocuments = () => {
 
     const [isAdmin, setIsAdmin] = useState(false);
@@ -32,7 +32,7 @@ const ProductsDocuments = () => {
     }, []);
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/pd')
+        axios.get(`${apiBaseUrl}/api/pd`)
             .then(response => {
                 setDocuments(response.data);
                 setFilteredDocuments(response.data);
@@ -47,7 +47,7 @@ const ProductsDocuments = () => {
         }
         else {
             //后端api，like模糊匹配
-            axios.get('http://localhost:3001/api/searchpd', { params: { keyword: searchKeyword } })
+            axios.get(`${apiBaseUrl}/api/searchpd`, { params: { keyword: searchKeyword } })
                 .then(response => {
                     setFilteredDocuments(response.data);
                 })
@@ -132,7 +132,7 @@ const ProductsDocuments = () => {
 
         try {
             // 保存在本地
-            const response = await fetch('http://localhost:3001/api/pdupload', {
+            const response = await fetch(`${apiBaseUrl}/api/pdupload`, {
                 method: 'POST',
                 body: formData,
             });
@@ -152,7 +152,7 @@ const ProductsDocuments = () => {
             };
 
             try {
-                const dbResponse = await fetch('http://localhost:3001/uploadpd', {
+                const dbResponse = await fetch(`${apiBaseUrl}/uploadpd`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -177,7 +177,7 @@ const ProductsDocuments = () => {
         }
     };
     const downloadDocument = (filePath, fileName) => {
-        const url = `http://localhost:3001/download?path=${encodeURIComponent(filePath)}`;
+        const url = `${apiBaseUrl}/download?path=${encodeURIComponent(filePath)}`;
         const link = document.createElement('a');
         link.href = url;
         link.download = fileName;
@@ -196,7 +196,7 @@ const ProductsDocuments = () => {
     const handleEdit = async () => {
         // 处理编辑事件
         try {
-            const response = await fetch('http://localhost:3001/updatepd', {
+            const response = await fetch(`${apiBaseUrl}/updatepd`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -239,7 +239,7 @@ const ProductsDocuments = () => {
     const handleDelete = () => {
         let ipath = handlepath;
         if (!isalldelete) { ipath = ''; }
-        fetch('http://localhost:3001/api/deletepd', {
+        fetch(`${apiBaseUrl}/api/deletepd`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

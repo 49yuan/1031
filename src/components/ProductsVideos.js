@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SousuoButton from '../assets/SousuoButton.jsx';
 import axios from 'axios';
-
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 const VideoCardT = ({ video }) => {
     const [isAdmin, setIsAdmin] = useState(false);
     const [isUploadFormOpen, setIsUploadFormOpen] = useState(false);
@@ -35,7 +35,7 @@ const VideoCardT = ({ video }) => {
     const handleEdit = async () => {
         // 处理编辑事件
         try {
-            const response = await fetch('http://localhost:3001/updatepv', {
+            const response = await fetch(`${apiBaseUrl}/updatepv`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ const VideoCardT = ({ video }) => {
     const handleDelete = () => {
         let ipath = handlepath;
         if (!isalldelete) { ipath = ''; }
-        fetch('http://localhost:3001/api/deletepv', {
+        fetch(`${apiBaseUrl}/api/deletepv`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -93,7 +93,7 @@ const VideoCardT = ({ video }) => {
         setShowConfirm(false);
     };
     const downloadDocument = (filePath, fileName) => {
-        const url = `http://localhost:3001/download?path=${encodeURIComponent(filePath)}`;
+        const url = `${apiBaseUrl}/download?path=${encodeURIComponent(filePath)}`;
         const link = document.createElement('a');
         link.href = url;
         link.download = fileName;
@@ -198,7 +198,7 @@ const ProductsVideos = () => {
     }, []);
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/pv')
+        axios.get(`${apiBaseUrl}/api/pv`)
             .then(response => {
                 // 将每个视频文件的绝对路径转换为相对路径，并添加到 music.url
                 const updatedVideo = response.data.map(item => {
@@ -221,7 +221,7 @@ const ProductsVideos = () => {
         }
         else {
             //后端api，like模糊匹配
-            axios.get('http://localhost:3001/api/searchpv', { params: { keyword: searchKeyword } })
+            axios.get(`${apiBaseUrl}/api/searchpv`, { params: { keyword: searchKeyword } })
                 .then(response => {
                     setFilteredDocuments(response.data);
                 })
@@ -314,7 +314,7 @@ const ProductsVideos = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:3001/api/pvupload', {
+            const response = await fetch(`${apiBaseUrl}/api/pvupload`, {
                 method: 'POST',
                 body: formData,
             });
@@ -334,7 +334,7 @@ const ProductsVideos = () => {
             };
 
             try {
-                const dbResponse = await fetch('http://localhost:3001/uploadpv', {
+                const dbResponse = await fetch(`${apiBaseUrl}/uploadpv`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
