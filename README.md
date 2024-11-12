@@ -14,26 +14,26 @@ This is a React application that manages material documents and products.
 
 1. Clone the repository.
 2. Create a `.env` file based on the `.env.example` file with your own configuration.
-3. This system is designed to operate using the local file system, without relying on a database server proxy. All document operations, including viewing, uploading, and deleting files, are handled directly on the local hard drive. We have implemented a static file storage solution using multer, a middleware for handling multipart/form-data in Node.js applications, which is particularly suited for file uploads.
-**Setting Up the Local Dataset Directory Structure**
-Before you begin, ensure that you have created a parent directory named **dataset** on your local machine. Within this directory, you will create several subdirectories to organize different types of files, such as documents, videos, and images. Here's how you can structure your dataset directory:
->dataset
->├── mdocuments
->├── mvideo
->├── mmusic
->├── mimages
->├── mbackground
->├── msound
->├── pdocument
->├── pdigital
->├── pimages
->├── pmusic
->└── pvideo
-**Configuring the config.js File**
-To manage the paths for your dataset, you can use the following config.js file. This file allows you to easily change the base directory (baseDir) and the corresponding subdirectories for different file types. **Make sure that the baseDir ends with /dataset to maintain consistency.**
-Explanation
-- baseDir: This is the path to the parent directory named dataset. It should be an absolute path and should end with /dataset. Update this path according to your local setup.
-- directories: This object maps the names of different file types to their respective subdirectories within the dataset directory. For example, 'MaterialsDocuments' is mapped to 'mdocuments', which means all document files for materials will be stored in the mdocuments folder.
+3. This system is designed to operate using the local file system, without relying on a database server proxy. All document operations, including viewing, uploading, and deleting files, are handled directly on the local hard drive. We have implemented a static file storage solution using multer, a middleware for handling multipart/form-data in Node.js applications, which is particularly suited for file uploads.<br />
+- **Setting Up the Local Dataset Directory Structure**
+  Before you begin, ensure that you have created a parent directory named **dataset** on your local machine. Within this directory, you will create several subdirectories to organize different types of files, such as documents, videos, and images.
+
+>dataset<br />
+├── mdocuments<br />
+├── mvideo<br />
+├── mmusic<br />
+├── mimages<br />
+├── mbackground<br />
+├── msound<br />
+├── pdocument<br />
+├── pdigital<br />
+├── pimages<br />
+├── pmusic<br />
+└── pvideo<br />
+- **Configuring the config.js File**
+  To manage the paths for your dataset, you can use the following config.js file. This file allows you to easily change the base directory (baseDir) and the corresponding subdirectories for different file types. **Make sure that the baseDir ends with /dataset to maintain consistency.**
+  - **baseDir**: This is the path to the parent directory named dataset. It should be an absolute path and should end with /dataset. Update this path according to your local setup.
+  - **directories**: This object maps the names of different file types to their respective subdirectories within the dataset directory. For example, 'MaterialsDocuments' is mapped to 'mdocuments', which means all document files for materials will be stored in the mdocuments folder.
 4. Database Configuration
 ```
 CREATE TABLE `user` (
@@ -118,4 +118,3 @@ CREATE TABLE product_digitalv (
 npm install
 npm start
 npm run build
-```
