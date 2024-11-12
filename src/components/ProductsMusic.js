@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from 'react';
 import SousuoButton from '../assets/SousuoButton.jsx';
+import { baseDir } from '../services/config.js';
 import axios from 'axios';
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 const ProductsMusic = () => {
@@ -34,7 +35,6 @@ const ProductsMusic = () => {
             .then(response => {
                 // 将每个音乐文件的绝对路径转换为相对路径，并添加到 music.url
                 const updatedMusic = response.data.map(item => {
-                    const baseDir = 'D:/2024/dataset';
                     const absolutePath = item.path;
                     const relativePath = absolutePath.substring(baseDir.length).replace(/\\/g, '/');
                     const serverPath = `/dataset${relativePath}`;

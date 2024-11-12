@@ -1,4 +1,5 @@
 import { React, useState, useEffect, useRef } from 'react';
+import { baseDir } from '../services/config.js';
 import axios from 'axios';
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 // ImageCard组件
@@ -95,7 +96,6 @@ const ImageCard = ({ id, stag, spath, isExpanded, setIsExpanded, index }) => {
 
     useEffect(() => {
         // Express服务器设置的静态文件目录的路径
-        const baseDir = 'D:/2024/dataset';
         // 使用 substring 和 lastIndexOf 转换为相对路径
         const relativePath = spath.substring(baseDir.length);
         const serverPath = '/dataset' + relativePath;

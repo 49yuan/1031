@@ -1,3 +1,4 @@
+const { baseDir, directories } = require('./config');
 const express = require('express');
 const mysql = require('mysql');
 const multer = require('multer');
@@ -19,7 +20,7 @@ app.use((req, res, next) => {
 });
 // 设置静态文件目录
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/dataset', express.static(path.join('D:', '2024', 'dataset')));
+app.use('/dataset', express.static(baseDir));
 // MySQL连接配置
 const connection = mysql.createConnection({
     host: process.env.REACT_APP_DB_HOST,
@@ -327,26 +328,10 @@ app.get('/api/searchpdv', (req, res) => {
 function getStorage(type) {
     return multer.diskStorage({
         destination: function (req, file, cb) {
-            // 根据不同的类型设置不同的存储目录
-            const baseDir = 'D:/2024/dataset';
-            const directories = {
-                'MaterialsDocuments': 'mdocuments',
-                'MaterialsVideo': 'mvideo',
-                'MaterialsMusic': 'mmusic',
-                'MaterialsImages': 'mimages',
-                'MaterialsBackground': 'mbackground',
-                'MaterialsSound': 'msound',
-                'ProductsDocuments': 'pdocuments',
-                'ProductsDigitalV': 'pdigital',
-                'ProductsImages': 'pimages',
-                'ProductsMusic': 'pmusic',
-                'ProductsVideo': 'pvideo'
-            };
             const directory = directories[type];
             cb(null, path.join(baseDir, directory));
         },
         filename: function (req, file, cb) {
-            // 设置文件名称为原始名称
             cb(null, file.originalname);
         }
     });
